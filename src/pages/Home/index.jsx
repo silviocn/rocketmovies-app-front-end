@@ -6,6 +6,51 @@ import { Header } from './../../components/Header';
 import { Section } from './../../components/Section';
 
 export function Home() {
+  const [search, setSearch] = useState("");
+  const [notes, setNotes] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [tagsSelected, setTagsSelected] = useState([]);
+
+  const navigate = useNavigate();
+
+  function handleTagSelected(tagName) {
+    if(tagName === "all") {
+      return setTagsSelected([]);
+    }
+
+    const alreadySelected = tagsSelected.includes(tagName); // used to know if the Tag is already selected or not
+    
+    if(alreadySelected) {
+      const filteredTags = tagsSelected.filter(tag => tag !== tagName); // show all tags less the not selected
+      setTagsSelected(filteredTags);
+    } else {
+      setTagsSelected(prevState => [... prevState, tagName]); // show all tags selected before plus the last one selected
+    }
+  }
+
+  function handleDetails(id) {
+    navigate(`/details/${id}`);
+  }
+
+  useEffect(() => {
+    async function fetchTags() { // creating this function to use in useEffect because it doesn't run async function
+      const response = await api.get("/tags");
+      setTags(response.data);
+    } 
+      
+    fetchTags();    
+  }, []); // whit empty array, this state will run only once when loading the page
+
+  useEffect(() => {
+    async function fetchNotes() {
+      const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`); // looking for notes and tags typed by user
+      setNotes(response.data);
+    }
+
+    fetchNotes();
+  }, [tagsSelected, search]); // this state will run every time one of those are requested (tagsSelected or search)
+  
+  
   return (
     <Container>
 
@@ -22,16 +67,17 @@ export function Home() {
         </div>
         
         <Section>
-          <Note data={{
-            title: 'Titanic',
-            description: 'Very touching movie about a couple traveling from England to USA in this big ship called Titanic', 
-            tags: [
-              {id: '1', name: 'Science fiction'},
-              {id: '2', name: 'Drama'},
-              {id: '3', name: 'Family'}
-            ] 
-            }}
-            />
+          <Note>
+            {
+              notes.map( note => (
+                <Note
+                key={String(note.id)}
+                data={note}
+                onClick={() => handleDetails(note.id)}
+                />
+              ))
+            }
+          </Note>           
         </Section>
       </Content>
     

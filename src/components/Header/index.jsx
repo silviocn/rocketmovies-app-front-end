@@ -1,7 +1,21 @@
 import { Container, Profile, Search, Brand } from './styles';
 import { Input } from './../../components/Input';
+import avatarPlaceholder from '../../assets/avatar_placeholder.svg';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/auth';
+import { api } from '../../services/api';
 
 export function Header() {
+  const { signOut, user } = useAuth();
+  const navigation = useNavigate();
+  
+  function handleSignOut() {
+    navigation("/");
+    signOut();
+  }
+    
+  const avatarURL = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : avatarPlaceholder;
+
   return (
     <Container>
       <Brand>
@@ -14,13 +28,13 @@ export function Header() {
 
       <Profile to="/profile">
         <div>
-          <strong>Silvio Neto</strong>
-          <span>Logout</span>
+          <strong>{user.name}</strong>
+          <span onClick={handleSignOut}>Logout </span>
         </div>
 
         <img
-          src="https://github.com/silviocn.png"
-          alt="User profile image"
+          src={avatarURL}
+          alt={user.name}
           />
 
       </Profile>

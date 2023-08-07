@@ -8,13 +8,44 @@ import { Section } from '../../components/Section';
 import { Tag } from '../../components/Tag';
 import { Link } from 'react-router-dom';
 
-export function Details() {
+import { useParams, useNavigate } from 'react-router-dom'; 
+import { useState, useEffect } from 'react';
+import { api } from '../../services/api';
 
+export function Details() {
+  const [data, setData] = useState(null);
+
+  const params = useParams();
+  const navigate = useNavigate();
+
+  function handleBack() {
+    navigate(-1); // goes back to the previous page
+  }
+
+  async function handleRemove() {
+    const confirm = window.confirm("Are you sure you want to delete this note?") // confirm is a function of the browser
+     // confirm returns true or false (OK or Cancel)
+    if(confirm) {
+      await api.delete(`/notes/${params.id}`);
+      navigate(-1); // or could use handleBack();
+    }
+
+  }
+
+  useEffect(() => {
+    async function fetchNote() {
+      const response = await api.get(`/notes/${params.id}`);
+      setData(response.data);
+    }
+
+    fetchNote();
+  }, [])
 
   return(
     <Container>
       <Header />
       
+      data &&
       <main>
         <Content>
           
@@ -23,7 +54,7 @@ export function Details() {
           </Links>
           
           <header>
-            <h1>Titanic</h1>            
+            <h1>{data.title}</h1>            
           </header>
           
           <div className='author'>
@@ -37,18 +68,22 @@ export function Details() {
             <h3>By Silvio Costa</h3> <FiClock id='clock'/> <h3>23/05/22 às 8:00</h3>
           </div>
 
-          <Section>
-            <Tag id="tag" title="Sci-Fi" />
-            <Tag id="tag" title="Drama" />
-            <Tag id="tag" title="Family" />
-          </Section>
+          {
+              data.tags &&
+              <Section title="Markers">
+                {
+                  data.tags.map(tag => (
+                    <Tag 
+                      key={String(tag.id)} 
+                      title={tag.name} 
+                    />
+                  ))
+                }
+              </Section>
+            }
 
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque sequi consectetur fugiat quos commodi rerum facere asperiores, 
-            pariatur excepturi saepe in magni porro. More text more text more text! Bla bla bla bla. Iure eveniet velit reiciendis atque 
-            ex explicabo! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque sequi consectetur fugiat quos commodi rerum facere asperiores, 
-            pariatur excepturi saepe in magni porro. More text more text more text! Bla bla bla bla. Iure eveniet velit reiciendis atque 
-            ex explicabo!
+            {data.description}
           </p>
 
         </Content>
