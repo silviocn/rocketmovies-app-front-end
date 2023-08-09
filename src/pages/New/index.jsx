@@ -69,7 +69,7 @@ export function New() {
             <h1>New Movie</h1>
           </header>
           
-          <div class="title_note">
+          <div className="title_note">
             <Input placeholder="Title" onChange={e => setTitle(e.target.value)}/>
             <Input placeholder="Your note from 0 to 5"/>
           </div>

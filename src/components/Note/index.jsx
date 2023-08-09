@@ -3,7 +3,7 @@ import { Tag } from './../Tag';
 import { Fragment } from 'react';
 import { Section } from '../Section';
 
-export function Note({ data, description, ...rest }) {
+export function Note({ data, ...rest }) {
   return (
     <Fragment>
       <Section></Section>
@@ -20,6 +20,7 @@ export function Note({ data, description, ...rest }) {
             }
           </footer>
         }
+
 
         
       </Container>

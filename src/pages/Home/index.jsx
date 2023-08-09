@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Note } from './../../components/Note';
 import { Header } from './../../components/Header';
 import { Section } from './../../components/Section';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function Home() {
   const [search, setSearch] = useState("");
@@ -57,7 +59,7 @@ export function Home() {
       <Header />
 
       <Content>
-        <div class='first_section'>
+        <div className='first_section'>
           <Section title="My Movies" />
 
             <Link id='Links' to="/new">
