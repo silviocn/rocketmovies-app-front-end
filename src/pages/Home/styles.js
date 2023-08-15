@@ -20,18 +20,7 @@ export const Content = styled.div`
 
   overflow-y: auto; // only appears scroll bar if needed
 
-  .first_section {
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    margin: 50px auto -80px;
-    display: flex;
-    align-items: center;
-    gap: 650px;    
-  }
-
+  
   #Links {
     background-color: ${ ({ theme }) => theme.COLORS.ORANGE };
     color: ${ ({ theme }) => theme.COLORS.BACKGROUND_900};

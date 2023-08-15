@@ -45,50 +45,51 @@ export function Details() {
   return(
     <Container>
       <Header />
-      
-      data &&
-      <main>
-        <Content>
-          
-          <Links>
-            <Link to="/"><FiArrowLeft /> Go back</Link>
-          </Links>
-          
-          <header>
-            <h1>{data.title}</h1>            
-          </header>
-          
-          <div className='author'>
-            <Avatar>
-              <img 
-              src="http://github.com/silviocn.png" 
-              alt="User profile image" />
-
-            </Avatar>
+      {
+        data &&
+        <main>
+          <Content>
             
-            <h3>By Silvio Costa</h3> <FiClock id='clock'/> <h3>23/05/22 às 8:00</h3>
-          </div>
+            <Links>
+              <Link to="/"><FiArrowLeft /> Go back</Link>
+            </Links>
+            
+            <header>
+              <h1>{data.title}</h1>            
+            </header>
+            
+            <div className='author'>
+              <Avatar>
+                <img 
+                src="http://github.com/silviocn.png" 
+                alt="User profile image" />
 
-          {
-              data.tags &&
-              <Section title="Markers">
-                {
-                  data.tags.map(tag => (
-                    <Tag 
-                      key={String(tag.id)} 
-                      title={tag.name} 
-                    />
-                  ))
-                }
-              </Section>
-            }
+              </Avatar>
+              
+              <h3>By Silvio Costa</h3> <FiClock id='clock'/> <h3>23/05/22 às 8:00</h3>
+            </div>
 
-          <p>
-            {data.description}
-          </p>
+            {
+                data.tags &&
+                <Section title="Tags">
+                  {
+                    data.tags.map(tag => (
+                      <Tag 
+                        key={String(tag.id)} 
+                        title={tag.name} 
+                      />
+                    ))
+                  }
+                </Section>
+              }
 
-        </Content>
-      </main>
+            <p>
+              {data.description}
+            </p>
+
+          </Content>
+        </main>
+      }
     </Container>
 
   )

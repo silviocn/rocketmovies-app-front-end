@@ -6,6 +6,7 @@ import { Header } from './../../components/Header';
 import { Section } from './../../components/Section';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../services/api';
 
 export function Home() {
   const [search, setSearch] = useState("");
@@ -59,17 +60,11 @@ export function Home() {
       <Header />
 
       <Content>
-        <div className='first_section'>
-          <Section title="My Movies" />
-
+        <Section title="My Movies">
             <Link id='Links' to="/new">
                 <FiPlus />
-                  Create Note
+                  New Movie
             </Link>   
-        </div>
-        
-        <Section>
-          <Note>
             {
               notes.map( note => (
                 <Note
@@ -78,8 +73,7 @@ export function Home() {
                 onClick={() => handleDetails(note.id)}
                 />
               ))
-            }
-          </Note>           
+            }     
         </Section>
       </Content>
     

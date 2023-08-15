@@ -17,9 +17,6 @@ export function New() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const [links, setLinks] = useState([]);
-  const [newLink, setNewLink] = useState("");
-
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState("");
 
@@ -39,10 +36,6 @@ export function New() {
       return alert("Please create the Note Title");
     }
     
-    if(newLink){
-      return alert ("Are you sure you don't want to add de last link typed? Remember to click in 'add' button");
-    }
-    
     if(newTag){
       return alert ("Are you sure you don't want to add de last tag typed? Remember to click in 'add' button");
     }
@@ -50,8 +43,7 @@ export function New() {
     await api.post("/notes", {
       title,
       description,
-      tags,
-      links
+      tags
     })
 
     alert("Note created successfully!");
@@ -77,7 +69,7 @@ export function New() {
           <Textarea placeholder="Comments" onChange={e => setDescription(e.target.value)}/>
 
 
-          <Section title="Markers">
+          <Section title="Tags">
             <div className='tags'>
             {
                 tags.map((tag, index) => (
