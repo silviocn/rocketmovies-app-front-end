@@ -3,7 +3,7 @@ import { Tag } from './../Tag';
 import { Fragment } from 'react';
 import { Section } from '../Section';
 
-export function Note({ data, ...rest }) {
+export function Note({ data, title, description, tags, ...rest }) {
   return (
     <Fragment>
       <Section></Section>
